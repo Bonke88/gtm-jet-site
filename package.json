@@ -7,13 +7,14 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "ingest": "node ai-content-pipeline/ingest.js"
+    "generate": "node scripts/seobot-ingest.js"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.9",
     "@astrojs/sitemap": "^3.6.0",
     "@astrojs/vercel": "^9.0.0",
-    "astro": "^5.15.4"
+    "astro": "^5.15.4",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "dotenv": "^17.2.3"

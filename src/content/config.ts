@@ -9,10 +9,11 @@ const guidesCollection = defineCollection({
     useCase: z.enum(['lead-generation', 'sales-enablement', 'account-based-marketing', 'sales-automation', 'pipeline-management', 'revenue-intelligence', 'data-enrichment', 'lead-routing']),
     difficulty: z.enum(['beginner', 'intermediate', 'advanced']),
     timeToImplement: z.number(),
-    publishDate: z.date(),
-    lastUpdated: z.date(),
+    publishDate: z.coerce.date(),
+    lastUpdated: z.coerce.date(),
     aiGenerated: z.boolean().default(false),
     source: z.string().optional(),
+    seobotId: z.string().optional(),
     targetKeyword: z.string().optional(),
   })
 });

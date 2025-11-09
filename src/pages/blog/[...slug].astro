@@ -12,11 +12,116 @@ export async function getStaticPaths() {
 
 const { guide } = Astro.props;
 const { Content } = await guide.render();
+
+// Create schema for SEO
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": guide.data.title,
+  "description": guide.data.description,
+  "author": {
+    "@type": "Organization",
+    "name": "GTME JET",
+    "url": "https://www.gtmejet.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GTME JET",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.gtmejet.com/favicon.svg"
+    }
+  },
+  "datePublished": guide.data.publishDate.toISOString(),
+  "dateModified": guide.data.lastUpdated.toISOString(),
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://www.gtmejet.com/blog/${guide.slug}`
+  },
+  "proficiencyLevel": guide.data.difficulty,
+  "timeRequired": `PT${guide.data.timeToImplement}M`
+};
+
+// FAQ Schema for enriched SEO
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What impact does technical debt in revenue systems have on business growth and efficiency?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Technical debt in revenue systems can drag down business growth and throw a wrench into operational efficiency. It often results in increased costs, thanks to inefficiencies, outdated workflows, and the constant need for system upkeep. These challenges can make scaling your business harder and stifle opportunities to innovate. On top of that, technical debt can lead to fragmented data and unreliable systems, which can negatively impact customer experiences and hinder informed decision-making."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I identify and fix data sync issues in my revenue system?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Data syncing hiccups can throw a wrench into your revenue operations. Keep an eye out for inconsistent or missing data, like mismatched customer records or incomplete transaction details. Pay attention to error logs or system alerts that might signal failed integrations. Audit your integrations to ensure all tools are connected correctly, standardize data formats across systems, and use monitoring tools to track data sync activity and flag errors in real time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the advantages of using specialized services like GTME Jet for cleaning up technical issues?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Specialized services such as GTME Jet excel at pinpointing inefficiencies, outdated workflows, and integration hurdles within your revenue systems. Their expertise allows them to tackle technical debt in ways that often surpass the capabilities of in-house teams. By providing customized insights and practical strategies, these services can help fine-tune your operations, ensuring your revenue systems operate seamlessly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the most common signs of technical debt in revenue systems?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The most common signs include data sync failures between sales tools, inaccurate or outdated revenue reports, reliance on manual processes and spreadsheets, broken or slow workflow automations, security and compliance problems, difficulty adding new sales tools, and missing system documentation. These issues compound over time and can significantly impact business growth and operational efficiency."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does technical debt typically cost businesses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Companies burdened by technical debt often allocate 70-80% of their IT budget just to keep systems operational, leaving little room for innovation or strategic improvements. Organizations in the top 20th percentile for technical debt score see 20% higher revenue growth compared to those in the bottom 20th percentile. Companies with high technical debt are also 40% more likely to have incomplete or abandoned IT modernization efforts."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it typically take to clean up technical debt in revenue systems?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The timeline depends on the severity of technical debt and system complexity. Quick wins like automating manual processes or fixing specific integration issues can be achieved in weeks. However, comprehensive cleanup involving system audits, rebuilding integrations, and establishing proper documentation typically takes 2-6 months. Using specialized services can accelerate this timeline by leveraging proven frameworks and experienced teams."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I fix technical debt internally or hire external help?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This depends on your internal resources and expertise. In-house teams may lack deep expertise across multiple platforms and revenue operations best practices, which can make cleanup efforts slower and riskier. Specialized services like GTME Jet provide experienced teams that have solved similar problems across various organizations, enabling faster implementation with less risk. External services are particularly valuable when you need expertise that would take significant time to build internally while technical debt continues to accumulate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the best way to prevent technical debt from accumulating?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Prevention requires establishing ongoing maintenance practices: conduct regular system health checks, implement proactive monitoring and alerts, maintain comprehensive living documentation, standardize API integration practices before adding new tools, enforce data quality standards, schedule incremental updates rather than large overhauls, and invest in proper training for teams managing revenue systems. The key is shifting from reactive firefighting to proactive system management."
+      }
+    }
+  ]
+};
+
+// Combine schemas
+const schema = [articleSchema, faqSchema];
 ---
 
 <BaseLayout
   title={guide.data.title}
   description={guide.data.description}
+  schema={schema}
 >
   <style>
     .article-header {

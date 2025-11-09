@@ -1,6 +1,6 @@
 ---
 title: "7 Signs Your Revenue System Needs Technical Cleanup"
-description: "Is technical debt costing you 70-80% of your IT budget? Discover the 7 critical warning signs your revenue systems need cleanup - from data sync failures to broken automations. Companies addressing these issues see 20% higher revenue growth."
+description: "Technical debt eating 70-80% of IT budgets? Discover 7 warning signs your revenue systems need cleanup. Companies fixing these see 20% higher growth."
 tool: "salesforce"
 useCase: "sales-automation"
 difficulty: "intermediate"

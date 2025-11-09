@@ -1,0 +1,161 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const guides = await getCollection('guides');
+const sortedGuides = guides.sort((a, b) =>
+  b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+---
+
+<BaseLayout
+  title="GTM Automation Guides | GTM Jet"
+  description="Browse our collection of AI-generated guides on Salesforce, HubSpot, Outreach, and modern GTM stack automation."
+>
+  <style>
+    .guides-header {
+      padding: 3rem 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .guides-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .guides-header p {
+      font-size: 1.125rem;
+      opacity: 0.95;
+    }
+
+    .guides-list {
+      padding: 3rem 0;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #6b7280;
+    }
+
+    .empty-state h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #1a1a1a;
+    }
+
+    .empty-state p {
+      margin-bottom: 1.5rem;
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .guide-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .guide-card {
+      padding: 1.5rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .guide-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-color: #667eea;
+    }
+
+    .guide-card h2 {
+      font-size: 1.375rem;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    .guide-card h2 a {
+      color: #1a1a1a;
+      text-decoration: none;
+    }
+
+    .guide-card h2 a:hover {
+      color: #667eea;
+    }
+
+    .guide-meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-bottom: 0.75rem;
+    }
+
+    .guide-description {
+      color: #4b5563;
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.625rem;
+      background: #f3f4f6;
+      color: #4b5563;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .badge.ai {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+  </style>
+
+  <section class="guides-header">
+    <div class="container">
+      <h1>GTM Automation Guides</h1>
+      <p>AI-generated insights updated daily</p>
+    </div>
+  </section>
+
+  <section class="guides-list">
+    <div class="container">
+      {sortedGuides.length === 0 ? (
+        <div class="empty-state">
+          <div class="empty-icon">🚀</div>
+          <h2>New Guides Coming Soon</h2>
+          <p>Our AI system is generating fresh content daily.</p>
+          <p>First guides will be published within 24 hours.</p>
+          <a href="/" style="color: #667eea; font-weight: 600;">← Back to Homepage</a>
+        </div>
+      ) : (
+        <div class="guide-grid">
+          {sortedGuides.map((guide) => (
+            <article class="guide-card">
+              <h2>
+                <a href={`/guides/${guide.slug}`}>{guide.data.title}</a>
+              </h2>
+              <div class="guide-meta">
+                <span class="badge">{guide.data.tool}</span>
+                <span class="badge">{guide.data.difficulty}</span>
+                {guide.data.aiGenerated && (
+                  <span class="badge ai">AI Generated</span>
+                )}
+                <span>{guide.data.timeToImplement} min read</span>
+              </div>
+              <p class="guide-description">{guide.data.description}</p>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,16 +1,226 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="GTM Jet - AI-Powered Go-To-Market Automation Guides"
+  description="Expert guides on Salesforce, HubSpot, Outreach, and modern GTM stack automation. AI-generated insights updated daily."
+>
+  <style>
+    .hero {
+      padding: 4rem 0;
+      text-align: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 0.875rem 2rem;
+      background: white;
+      color: #667eea;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    .features {
+      padding: 4rem 0;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 3rem;
+      color: #1a1a1a;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      padding: 2rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      transition: box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: #667eea;
+    }
+
+    .feature-card p {
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .tools-section {
+      padding: 4rem 0;
+      background: #f9fafb;
+    }
+
+    .tools-section h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .tool-badge {
+      padding: 1rem;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      text-align: center;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Master Your GTM Stack with AI</h1>
+      <p>
+        Daily-updated guides on Salesforce, HubSpot, Outreach, and modern sales automation.
+        Powered by AI, validated by real implementations.
+      </p>
+      <a href="/guides" class="cta-button">Explore Guides →</a>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2>What You'll Learn</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>🎯 Sales Automation</h3>
+          <p>
+            End-to-end guides for Outreach, SalesLoft, and modern sales engagement platforms.
+            From sequences to cadences, master outbound at scale.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3>📊 Pipeline Management</h3>
+          <p>
+            Salesforce and HubSpot automation workflows. Build custom objects, optimize stages,
+            and create automated pipeline intelligence.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3>🚀 Revenue Intelligence</h3>
+          <p>
+            Gong, Chorus, and conversation intelligence platforms. Extract insights from sales calls
+            and automate coaching at scale.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3>💎 Data Enrichment</h3>
+          <p>
+            ZoomInfo, Clearbit, and Apollo integration. Automate lead scoring, firmographic enrichment,
+            and contact discovery workflows.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3>🎨 Account-Based Marketing</h3>
+          <p>
+            Marketo and Pardot ABM strategies. Build intent-based campaigns, orchestrate multi-touch
+            attribution, and optimize for accounts.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3>⚡ Workflow Orchestration</h3>
+          <p>
+            Zapier, Make, and no-code integrations. Connect your entire GTM stack without custom code.
+            Real examples, real ROI.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tools-section">
+    <div class="container">
+      <h2>Tools We Cover</h2>
+      <div class="tools-grid">
+        <div class="tool-badge">Salesforce</div>
+        <div class="tool-badge">HubSpot</div>
+        <div class="tool-badge">Outreach</div>
+        <div class="tool-badge">SalesLoft</div>
+        <div class="tool-badge">Gong</div>
+        <div class="tool-badge">Apollo</div>
+        <div class="tool-badge">ZoomInfo</div>
+        <div class="tool-badge">Clearbit</div>
+        <div class="tool-badge">Marketo</div>
+        <div class="tool-badge">Pardot</div>
+        <div class="tool-badge">Clay</div>
+        <div class="tool-badge">Zapier</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+        <h2 style="margin-bottom: 1rem;">Fresh Content, Daily</h2>
+        <p style="color: #6b7280; margin-bottom: 2rem;">
+          Our AI system generates new guides every day based on the latest GTM trends and community questions.
+          Every article is optimized for implementation, not just theory.
+        </p>
+        <a href="/guides" class="cta-button">Browse All Guides →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

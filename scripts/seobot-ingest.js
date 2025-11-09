@@ -18,10 +18,14 @@ async function fetchAndSaveArticles() {
 
     // Fetch all articles (page 0, limit 50)
     console.log('\n📥 Fetching articles from SEObot...');
-    const articles = await client.getArticles(0, 50);
+    const response = await client.getArticles(0, 50);
+
+    // Handle response structure - might be { articles: [...] } or just [...]
+    const articles = Array.isArray(response) ? response : (response?.articles || response?.data || []);
 
     if (!articles || articles.length === 0) {
-      console.log('⚠️  No articles found. Make sure articles are generated in SEObot dashboard.');
+      console.log('⚠️  No articles found. Make sure articles are generated in seobotai.com dashboard.');
+      console.log('📝 To generate articles: https://app.seobotai.com');
       return;
     }
 
@@ -38,19 +42,22 @@ async function fetchAndSaveArticles() {
     let skippedCount = 0;
 
     for (const article of articles) {
-      // Only process published articles
-      if (!article.published) {
-        console.log(`⏭️  Skipping unpublished: "${article.headline}"`);
-        skippedCount++;
-        continue;
-      }
-
       const fileName = `${article.slug}.md`;
       const filePath = path.join(contentDir, fileName);
 
       // Skip if file already exists
       if (fs.existsSync(filePath)) {
         console.log(`⏭️  Already exists: "${article.headline}"`);
+        skippedCount++;
+        continue;
+      }
+
+      // Fetch full article content
+      console.log(`📥 Fetching full content for: "${article.headline}"`);
+      const fullArticle = await client.getArticle(article.slug);
+
+      if (!fullArticle || (!fullArticle.markdown && !fullArticle.html)) {
+        console.log(`⚠️  No content available for: "${article.headline}"`);
         skippedCount++;
         continue;
       }
@@ -88,7 +95,7 @@ seobotId: "${article.id}"
 targetKeyword: "${article.metaKeywords || article.headline}"
 ---
 
-${article.markdown || article.html}
+${fullArticle.markdown || fullArticle.html}
 `;
 
       fs.writeFileSync(filePath, frontmatter, 'utf8');

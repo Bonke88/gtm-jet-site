@@ -1,0 +1,40 @@
+name: AI Content Ingestion
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Daily at midnight UTC
+  workflow_dispatch:      # Manual trigger
+
+jobs:
+  ingest-content:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run content ingestion
+        env:
+          SEOBOT_API_KEY: ${{ secrets.SEOBOT_API_KEY }}
+          SEOBOT_PROJECT_ID: ${{ secrets.SEOBOT_PROJECT_ID }}
+          OUTRANK_API_KEY: ${{ secrets.OUTRANK_API_KEY }}
+        run: node ai-content-pipeline/ingest.js
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "AI Content Bot"
+          git config user.email "bot@gtmejet.com"
+          git add src/content/ experiment-data/
+          git diff --staged --quiet || git commit -m "Auto-publish AI-generated content [skip ci]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

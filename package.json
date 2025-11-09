@@ -1,0 +1,21 @@
+{
+  "name": "gtm-jet-site",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "ingest": "node ai-content-pipeline/ingest.js"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.9",
+    "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/vercel": "^9.0.0",
+    "astro": "^5.15.4"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.3"
+  }
+}

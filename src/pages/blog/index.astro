@@ -141,14 +141,11 @@ const sortedGuides = guides.sort((a, b) =>
           {sortedGuides.map((guide) => (
             <article class="guide-card">
               <h2>
-                <a href={`/guides/${guide.slug}`}>{guide.data.title}</a>
+                <a href={`/blog/${guide.slug}`}>{guide.data.title}</a>
               </h2>
               <div class="guide-meta">
                 <span class="badge">{guide.data.tool}</span>
                 <span class="badge">{guide.data.difficulty}</span>
-                {guide.data.aiGenerated && (
-                  <span class="badge ai">AI Generated</span>
-                )}
                 <span>{guide.data.timeToImplement} min read</span>
               </div>
               <p class="guide-description">{guide.data.description}</p>

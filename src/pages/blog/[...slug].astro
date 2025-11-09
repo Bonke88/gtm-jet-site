@@ -126,9 +126,105 @@ const { Content } = await guide.render();
       color: #4b5563;
     }
 
+    /* YouTube iframe embeds */
+    .article-content :global(iframe) {
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 0.5rem;
+      margin: 2rem 0;
+      border: none;
+    }
+
+    /* FAQ styling */
+    .article-content :global(details) {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .article-content :global(summary) {
+      font-weight: 600;
+      cursor: pointer;
+      color: #1a1a1a;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .article-content :global(summary::-webkit-details-marker) {
+      display: none;
+    }
+
+    .article-content :global(summary::after) {
+      content: '+';
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #667eea;
+    }
+
+    .article-content :global(details[open] summary::after) {
+      content: '−';
+    }
+
+    .article-content :global(details p) {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    /* Mid-article CTA box */
+    .article-content :global(.cta-box) {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      margin: 3rem 0;
+      text-align: center;
+    }
+
+    .article-content :global(.cta-box h3) {
+      color: white;
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      margin-top: 0;
+    }
+
+    .article-content :global(.cta-box p) {
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 1.5rem;
+      font-size: 1.125rem;
+    }
+
+    .article-content :global(.cta-box a) {
+      display: inline-block;
+      background: white;
+      color: #667eea;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+
+    .article-content :global(.cta-box a:hover) {
+      transform: scale(1.05);
+    }
+
     @media (max-width: 768px) {
       .article-title {
         font-size: 1.875rem;
+      }
+
+      .article-content :global(.cta-box) {
+        padding: 1.5rem;
+      }
+
+      .article-content :global(.cta-box h3) {
+        font-size: 1.5rem;
       }
     }
   </style>
@@ -141,9 +237,6 @@ const { Content } = await guide.render();
           <span class="badge">{guide.data.tool}</span>
           <span class="badge">{guide.data.useCase}</span>
           <span class="badge">{guide.data.difficulty}</span>
-          {guide.data.aiGenerated && (
-            <span class="badge ai">AI Generated</span>
-          )}
           <span>⏱️ {guide.data.timeToImplement} min read</span>
           <span>📅 {guide.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
         </div>

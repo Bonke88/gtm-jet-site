@@ -36,8 +36,7 @@ If in-house resources are stretched, consider specialized services like [GTME Je
 
 ## Modernize Your Digital Foundation: Conquering Technical Debt & Legacy Systems
 
-::: @iframe https://www.youtube.com/embed/z-r3emrvvLM
-:::
+<iframe src="https://www.youtube.com/embed/z-r3emrvvLM" allowfullscreen></iframe>
 
 ## What Is Technical Debt in Revenue Systems
 
@@ -54,6 +53,13 @@ The impact of technical debt is far-reaching. It slows down deal processing, cre
 It also limits operational flexibility. Adding new sales tools or launching products often requires extensive manual workarounds when existing systems can't keep up with current demands. This lack of adaptability can make it harder for businesses to scale or respond quickly in a fast-changing market.
 
 Lastly, technical debt can lead to compliance risks. Outdated integrations and manual processes make it harder to meet revenue recognition standards, comply with data privacy laws, or ensure accurate financial reporting. For instance, an audit might uncover hidden issues in your revenue systems that were previously patched with temporary fixes. Recognizing these risks is the first step toward identifying when your revenue systems need a serious overhaul.
+
+
+<div class="cta-box">
+<h3>Transform Your Revenue Infrastructure</h3>
+<p>Stop wrestling with broken syncs and manual workarounds. Get production-grade GTM engineering without the $180K hire.</p>
+<a href="/">Get Started with GTME JET</a>
+</div>
 
 ## 1\. Data Sync Failures Between Sales Tools
 
@@ -135,7 +141,7 @@ Manual processes don’t just compromise data accuracy - they also drain operati
 
 These inefficiencies multiply as the business grows. Processes that worked for 100 customers become unmanageable with 1,000. Manual workflows simply don’t scale, and the operational burden increases exponentially with added complexity.
 
-Automation also struggles when manual processes are involved. Automated systems depend on consistent, clean data to function properly. But when humans are manually updating parts of the process, it introduces variability that can cause automated workflows to fail or produce unreliable results.
+Automation also struggles when manual processes are involved. Automated systems depend on consistent, clean data to function properly. But when humans are manually updating parts of the process, it introduces variability that can cause [automated workflows](https://gointegral.co) to fail or produce unreliable results.
 
 ### Integration and Scalability Challenges
 
@@ -303,7 +309,7 @@ Maintain **living system documentation** that includes detailed records of confi
 
 In many cases, in-house teams may not have the deep expertise required for a full technical cleanup. Fixing revenue systems often demands knowledge across multiple platforms, complex integrations, and best practices in revenue operations. Building this expertise internally can take significant time - meanwhile, technical debt continues to grow.
 
-To fill this gap, specialized services can provide quick and effective solutions. For example, **GTME Jet** offers dedicated GTM engineering services for $7,995 per month. This service includes unlimited requests, weekly deliverables, Slack-based updates, and no long-term commitments. It’s a streamlined way to clean up technical debt without hiring additional staff.
+To fill this gap, specialized services can provide quick and effective solutions. For example, **GTME Jet** offers [dedicated GTM engineering services](https://sixtysixten.com) for $7,995 per month. This service includes unlimited requests, weekly deliverables, Slack-based updates, and no long-term commitments. It’s a streamlined way to clean up technical debt without hiring additional staff.
 
 One of the main benefits of using specialized services is their **extensive experience with different revenue system architectures**. These experts have solved similar problems for various organizations, meaning they can implement proven solutions faster and with less risk of introducing new issues.
 
@@ -349,16 +355,17 @@ Your revenue systems should fuel growth, not hold it back. Now’s the time to i
 
 ## FAQs
 
-::: faq
-### What impact does technical debt in revenue systems have on business growth and efficiency?
+<details>
+<summary>What impact does technical debt in revenue systems have on business growth and efficiency?</summary>
 
 Technical debt in revenue systems can drag down business growth and throw a wrench into operational efficiency. It often results in increased costs, thanks to inefficiencies, outdated workflows, and the constant need for system upkeep. These challenges can make scaling your business harder and stifle opportunities to innovate.
 
 On top of that, technical debt can lead to fragmented data and unreliable systems, which can negatively impact customer experiences and hinder informed decision-making. Tackling these problems early is crucial to keeping operations on track and staying competitive in the marketplace.
-:::
+</details>
 
-::: faq
-### How can I identify and fix data sync issues in my revenue system?
+
+<details>
+<summary>How can I identify and fix data sync issues in my revenue system?</summary>
 
 Data syncing hiccups can throw a wrench into your revenue operations, causing inefficiencies and potential revenue loss. Spotting these problems early is key. Keep an eye out for **inconsistent or missing data**, like mismatched customer records or incomplete transaction details. Pay attention to error logs or system alerts that might signal failed integrations or delays in data transfers.
 
@@ -372,12 +379,14 @@ Here’s how you can tackle these issues effectively:
     
 
 By staying on top of these areas and addressing any technical gaps, you can keep your data flowing smoothly and ensure your revenue processes run like a well-oiled machine.
-:::
+</details>
 
-::: faq
-### What are the advantages of using specialized services like GTME Jet for cleaning up technical issues in our revenue systems?
+
+<details>
+<summary>What are the advantages of using specialized services like GTME Jet for cleaning up technical issues in our revenue systems?</summary>
 
 Specialized services such as GTME Jet excel at pinpointing inefficiencies, outdated workflows, and integration hurdles within your revenue systems. Their expertise allows them to tackle technical debt in ways that often surpass the capabilities of in-house teams.
 
 By providing **customized insights and practical strategies**, these services can help fine-tune your operations, ensuring your revenue systems operate seamlessly. Their targeted approach not only saves time and minimizes costly mistakes but also enhances system performance and prepares your infrastructure for future growth.
-:::
+</details>
+

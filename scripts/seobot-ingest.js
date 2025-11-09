@@ -79,6 +79,41 @@ async function fetchAndSaveArticles() {
       // Ensure description is max 160 chars
       const description = (article.metaDescription || article.headline).slice(0, 160);
 
+      // Transform the markdown content
+      let content = fullArticle.markdown || fullArticle.html;
+
+      // Transform ::: @iframe URL ::: to proper iframe HTML
+      content = content.replace(
+        /::: @iframe (https:\/\/[^\s]+)\s*:::/g,
+        '<iframe src="$1" allowfullscreen></iframe>'
+      );
+
+      // Transform ::: faq blocks to <details> HTML
+      content = content.replace(
+        /::: faq\s*\n### ([^\n]+)\s*\n([\s\S]*?):::/g,
+        (match, question, answer) => {
+          const cleanAnswer = answer.trim();
+          return `<details>\n<summary>${question}</summary>\n\n${cleanAnswer}\n</details>\n`;
+        }
+      );
+
+      // Add mid-article CTA after the 3rd ## heading
+      let headingCount = 0;
+      let ctaInserted = false;
+
+      content = content.replace(/^## ([^\n]+)/gm, (match, heading) => {
+        headingCount++;
+
+        // Insert CTA before 3rd section
+        if (headingCount === 3 && !ctaInserted && !heading.includes('FAQ')) {
+          ctaInserted = true;
+          const cta = `\n<div class="cta-box">\n<h3>Transform Your Revenue Infrastructure</h3>\n<p>Stop wrestling with broken syncs and manual workarounds. Get production-grade GTM engineering without the $180K hire.</p>\n<a href="/">Get Started with GTME JET</a>\n</div>\n\n`;
+          return cta + match;
+        }
+
+        return match;
+      });
+
       // Create frontmatter
       const frontmatter = `---
 title: "${article.headline.replace(/"/g, '\\"')}"
@@ -95,7 +130,7 @@ seobotId: "${article.id}"
 targetKeyword: "${article.metaKeywords || article.headline}"
 ---
 
-${fullArticle.markdown || fullArticle.html}
+${content}
 `;
 
       fs.writeFileSync(filePath, frontmatter, 'utf8');

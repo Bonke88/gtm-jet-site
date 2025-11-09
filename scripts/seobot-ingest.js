@@ -1,116 +1,114 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { BlogClient } from 'seobot';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const SEOBOT_API_KEY = process.env.SEOBOT_API_KEY || '089a7d20-81dc-4742-86de-8738634497b6';
-const SEOBOT_API_URL = 'https://api.seobotai.com/v1';
 
-// GTM-focused keywords
-const GTM_KEYWORDS = [
-  'salesforce sales automation',
-  'hubspot pipeline management',
-  'outreach sales sequences',
-  'gong conversation intelligence',
-  'apollo prospecting automation',
-  'salesloft cadence automation',
-  'clearbit data enrichment',
-  'zoominfo contact enrichment',
-  'revenue intelligence platform',
-  'sales engagement platform'
-];
-
-async function generateArticle(keyword) {
-  console.log(`\n📝 Generating article for: "${keyword}"`);
+async function fetchAndSaveArticles() {
+  console.log('🚀 Starting SEObot.ai content fetch for GTME JET');
+  console.log(`📊 API Key: ${SEOBOT_API_KEY.slice(0, 8)}...`);
 
   try {
-    const response = await fetch(`${SEOBOT_API_URL}/articles/generate`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${SEOBOT_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        keyword,
-        language: 'en',
-        tone: 'professional',
-        contentType: 'blog-post',
-        includeImages: false,
-        wordCount: 2000
-      })
-    });
+    // Initialize SEObot client
+    const client = new BlogClient(SEOBOT_API_KEY);
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`SEObot API error: ${response.status} - ${errorText}`);
+    // Fetch all articles (page 0, limit 50)
+    console.log('\n📥 Fetching articles from SEObot...');
+    const articles = await client.getArticles(0, 50);
+
+    if (!articles || articles.length === 0) {
+      console.log('⚠️  No articles found. Make sure articles are generated in SEObot dashboard.');
+      return;
     }
 
-    const data = await response.json();
-    console.log(`✅ Article generated: "${data.title}"`);
-    return data;
+    console.log(`✅ Found ${articles.length} articles`);
 
-  } catch (error) {
-    console.error(`❌ Failed to generate article for "${keyword}":`, error.message);
-    return null;
-  }
-}
+    const contentDir = path.join(__dirname, '..', 'src', 'content', 'guides');
 
-async function saveArticle(article, keyword) {
-  if (!article || !article.content) {
-    console.log('⚠️  No article content to save');
-    return;
-  }
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(contentDir)) {
+      fs.mkdirSync(contentDir, { recursive: true });
+    }
 
-  const slug = article.slug || keyword.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-  const fileName = `${slug}.md`;
-  const contentDir = path.join(__dirname, '..', 'src', 'content', 'guides');
-  const filePath = path.join(contentDir, fileName);
+    let savedCount = 0;
+    let skippedCount = 0;
 
-  // Create directory if it doesn't exist
-  if (!fs.existsSync(contentDir)) {
-    fs.mkdirSync(contentDir, { recursive: true });
-  }
+    for (const article of articles) {
+      // Only process published articles
+      if (!article.published) {
+        console.log(`⏭️  Skipping unpublished: "${article.headline}"`);
+        skippedCount++;
+        continue;
+      }
 
-  // Extract metadata from article
-  const tool = extractTool(keyword, article.title);
-  const useCase = extractUseCase(keyword, article.title);
-  const difficulty = 'intermediate';
+      const fileName = `${article.slug}.md`;
+      const filePath = path.join(contentDir, fileName);
 
-  // Calculate read time
-  const wordCount = article.content.split(/\s+/).length;
-  const timeToImplement = Math.max(5, Math.round(wordCount / 200));
+      // Skip if file already exists
+      if (fs.existsSync(filePath)) {
+        console.log(`⏭️  Already exists: "${article.headline}"`);
+        skippedCount++;
+        continue;
+      }
 
-  // Format dates
-  const publishDate = new Date().toISOString().split('T')[0];
+      // Extract metadata
+      const tool = extractTool(article.headline, article.tags);
+      const useCase = extractUseCase(article.headline, article.tags);
+      const difficulty = extractDifficulty(article.tags);
 
-  // Ensure description is max 160 chars
-  const description = (article.description || article.title).slice(0, 160);
+      // Format dates
+      const publishDate = article.publishedAt
+        ? new Date(article.publishedAt).toISOString().split('T')[0]
+        : new Date().toISOString().split('T')[0];
 
-  const frontmatter = `---
-title: "${article.title.replace(/"/g, '\\"')}"
+      const lastUpdated = article.updatedAt
+        ? new Date(article.updatedAt).toISOString().split('T')[0]
+        : publishDate;
+
+      // Ensure description is max 160 chars
+      const description = (article.metaDescription || article.headline).slice(0, 160);
+
+      // Create frontmatter
+      const frontmatter = `---
+title: "${article.headline.replace(/"/g, '\\"')}"
 description: "${description.replace(/"/g, '\\"')}"
 tool: "${tool}"
 useCase: "${useCase}"
 difficulty: "${difficulty}"
-timeToImplement: ${timeToImplement}
+timeToImplement: ${article.readingTime || 10}
 publishDate: ${publishDate}
-lastUpdated: ${publishDate}
+lastUpdated: ${lastUpdated}
 aiGenerated: true
 source: "seobot"
-seobotId: "${article.id || slug}"
-targetKeyword: "${keyword}"
+seobotId: "${article.id}"
+targetKeyword: "${article.metaKeywords || article.headline}"
 ---
 
-${article.content}
+${article.markdown || article.html}
 `;
 
-  fs.writeFileSync(filePath, frontmatter, 'utf8');
-  console.log(`💾 Saved to: ${fileName}`);
+      fs.writeFileSync(filePath, frontmatter, 'utf8');
+      console.log(`💾 Saved: "${article.headline}" → ${fileName}`);
+      savedCount++;
+    }
+
+    console.log('\n✅ Content fetch complete!');
+    console.log(`📊 Saved: ${savedCount} | Skipped: ${skippedCount} | Total: ${articles.length}`);
+
+  } catch (error) {
+    console.error('❌ Error fetching articles:', error.message);
+    if (error.response) {
+      console.error('Response data:', error.response.data);
+    }
+    throw error;
+  }
 }
 
-function extractTool(keyword, title) {
+function extractTool(headline, tags = []) {
   const tools = {
     'salesforce': 'salesforce',
     'hubspot': 'hubspot',
@@ -121,10 +119,13 @@ function extractTool(keyword, title) {
     'clearbit': 'clearbit',
     'zoominfo': 'zoominfo',
     'marketo': 'marketo',
-    'pardot': 'pardot'
+    'pardot': 'pardot',
+    'clay': 'clay',
+    'zapier': 'zapier',
+    'make': 'make'
   };
 
-  const text = `${keyword} ${title}`.toLowerCase();
+  const text = `${headline} ${tags.map(t => t.title || '').join(' ')}`.toLowerCase();
 
   for (const [key, value] of Object.entries(tools)) {
     if (text.includes(key)) {
@@ -135,7 +136,7 @@ function extractTool(keyword, title) {
   return 'salesforce'; // Default
 }
 
-function extractUseCase(keyword, title) {
+function extractUseCase(headline, tags = []) {
   const useCases = {
     'automation': 'sales-automation',
     'prospecting': 'lead-generation',
@@ -144,10 +145,11 @@ function extractUseCase(keyword, title) {
     'intelligence': 'revenue-intelligence',
     'enablement': 'sales-enablement',
     'routing': 'lead-routing',
-    'abm': 'account-based-marketing'
+    'abm': 'account-based-marketing',
+    'generation': 'lead-generation'
   };
 
-  const text = `${keyword} ${title}`.toLowerCase();
+  const text = `${headline} ${tags.map(t => t.title || '').join(' ')}`.toLowerCase();
 
   for (const [key, value] of Object.entries(useCases)) {
     if (text.includes(key)) {
@@ -158,30 +160,13 @@ function extractUseCase(keyword, title) {
   return 'sales-automation'; // Default
 }
 
-async function main() {
-  console.log('🚀 Starting SEObot.ai content generation for GTME JET');
-  console.log(`📊 API Key: ${SEOBOT_API_KEY.slice(0, 8)}...`);
-  console.log(`📝 Keywords to process: ${GTM_KEYWORDS.length}`);
+function extractDifficulty(tags = []) {
+  const text = tags.map(t => t.title || '').join(' ').toLowerCase();
 
-  let successCount = 0;
-  let failCount = 0;
+  if (text.includes('beginner')) return 'beginner';
+  if (text.includes('advanced')) return 'advanced';
 
-  for (const keyword of GTM_KEYWORDS) {
-    const article = await generateArticle(keyword);
-
-    if (article) {
-      await saveArticle(article, keyword);
-      successCount++;
-    } else {
-      failCount++;
-    }
-
-    // Wait 2 seconds between requests to avoid rate limiting
-    await new Promise(resolve => setTimeout(resolve, 2000));
-  }
-
-  console.log('\n✅ Content generation complete!');
-  console.log(`📊 Success: ${successCount} | Failed: ${failCount}`);
+  return 'intermediate'; // Default
 }
 
-main().catch(console.error);
+fetchAndSaveArticles().catch(console.error);

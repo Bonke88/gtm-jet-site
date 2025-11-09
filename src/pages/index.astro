@@ -3,224 +3,547 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
-  title="GTM Jet - AI-Powered Go-To-Market Automation Guides"
-  description="Expert guides on Salesforce, HubSpot, Outreach, and modern GTM stack automation. AI-generated insights updated daily."
+  title="GTME JET - Your Go-To-Market Engineering Team, On Demand"
+  description="Skip the $180K hire. Get a dedicated GTM engineer building your revenue infrastructure—from lead routing to pipeline intelligence—for a fixed monthly fee."
 >
   <style>
+    /* Apple-inspired minimalist design */
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Hero Section - Apple style */
     .hero {
-      padding: 4rem 0;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      background: #000000;
+      color: #f5f5f7;
+      padding: 4rem 1.5rem;
+    }
+
+    .hero-content {
+      max-width: 980px;
+      margin: 0 auto;
     }
 
     .hero h1 {
-      font-size: 3rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      line-height: 1.2;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -0.015em;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, #f5f5f7 0%, #86868b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .hero p {
-      font-size: 1.25rem;
+    .hero .subhead {
+      font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+      font-weight: 400;
+      line-height: 1.4;
+      color: #86868b;
       margin-bottom: 2rem;
-      opacity: 0.95;
-      max-width: 600px;
+      max-width: 700px;
       margin-left: auto;
       margin-right: auto;
     }
 
-    .cta-button {
-      display: inline-block;
-      padding: 0.875rem 2rem;
-      background: white;
-      color: #667eea;
-      border-radius: 0.5rem;
+    .cta-group {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .cta-primary {
+      padding: 0.875rem 1.75rem;
+      background: #0071e3;
+      color: white;
+      border-radius: 980px;
+      font-size: 1.0625rem;
+      font-weight: 400;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .cta-primary:hover {
+      background: #0077ed;
+      transform: scale(1.02);
+      text-decoration: none;
+    }
+
+    .cta-secondary {
+      padding: 0.875rem 1.75rem;
+      background: transparent;
+      color: #0071e3;
+      border: 1px solid #0071e3;
+      border-radius: 980px;
+      font-size: 1.0625rem;
+      font-weight: 400;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .cta-secondary:hover {
+      background: rgba(0, 113, 227, 0.1);
+      text-decoration: none;
+    }
+
+    /* Problem Section */
+    .problem-section {
+      padding: 6rem 1.5rem;
+      background: #f5f5f7;
+    }
+
+    .problem-section h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.2s;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-2px);
-      text-decoration: none;
-    }
-
-    .features {
-      padding: 4rem 0;
-    }
-
-    .features h2 {
       text-align: center;
-      font-size: 2rem;
+      line-height: 1.1;
+      letter-spacing: -0.015em;
       margin-bottom: 3rem;
-      color: #1a1a1a;
+      color: #1d1d1f;
     }
 
-    .feature-grid {
+    .problem-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .problem-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .problem-card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1d1d1f;
+    }
+
+    .problem-card p {
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      color: #6e6e73;
+    }
+
+    /* Solution Section */
+    .solution-section {
+      padding: 6rem 1.5rem;
+      background: #000000;
+      color: #f5f5f7;
+    }
+
+    .solution-section h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      margin-bottom: 1rem;
+    }
+
+    .solution-section .tagline {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #86868b;
+      margin-bottom: 4rem;
+    }
+
+    .capabilities-grid {
+      max-width: 1200px;
+      margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
     }
 
-    .feature-card {
-      padding: 2rem;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.5rem;
-      transition: box-shadow 0.2s;
+    .capability {
+      text-align: left;
     }
 
-    .feature-card:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    .capability-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
     }
 
-    .feature-card h3 {
-      font-size: 1.25rem;
+    .capability h3 {
+      font-size: 1.375rem;
+      font-weight: 600;
       margin-bottom: 0.75rem;
-      color: #667eea;
     }
 
-    .feature-card p {
-      color: #6b7280;
+    .capability p {
+      font-size: 1rem;
       line-height: 1.6;
+      color: #86868b;
     }
 
-    .tools-section {
-      padding: 4rem 0;
-      background: #f9fafb;
+    /* Differentiation Section */
+    .diff-section {
+      padding: 6rem 1.5rem;
+      background: white;
     }
 
-    .tools-section h2 {
+    .diff-section h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600;
       text-align: center;
-      font-size: 2rem;
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+      margin-bottom: 1rem;
+      color: #1d1d1f;
+    }
+
+    .diff-section .subhead {
+      text-align: center;
+      font-size: 1.25rem;
+      color: #6e6e73;
+      margin-bottom: 4rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .comparison-table {
+      max-width: 980px;
+      margin: 0 auto;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9375rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 1rem;
+      border-bottom: 1px solid #d2d2d7;
+      font-weight: 600;
+      color: #1d1d1f;
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #f5f5f7;
+      color: #6e6e73;
+    }
+
+    .check {
+      color: #0071e3;
+      font-weight: 600;
+    }
+
+    .cross {
+      color: #86868b;
+    }
+
+    /* Pricing Section */
+    .pricing-section {
+      padding: 6rem 1.5rem;
+      background: #f5f5f7;
+    }
+
+    .pricing-section h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      color: #1d1d1f;
+    }
+
+    .pricing-section .subhead {
+      text-align: center;
+      font-size: 1.25rem;
+      color: #6e6e73;
+      margin-bottom: 3rem;
+    }
+
+    .pricing-card {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 3rem;
+      border-radius: 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .price {
+      font-size: 4rem;
+      font-weight: 600;
+      color: #1d1d1f;
+      line-height: 1;
+    }
+
+    .price-period {
+      font-size: 1.25rem;
+      color: #86868b;
       margin-bottom: 2rem;
     }
 
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1.5rem;
-      max-width: 800px;
-      margin: 0 auto;
+    .features-list {
+      text-align: left;
+      list-style: none;
+      padding: 0;
+      margin: 2rem 0;
     }
 
-    .tool-badge {
-      padding: 1rem;
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.5rem;
+    .features-list li {
+      padding: 0.75rem 0;
+      font-size: 1.0625rem;
+      color: #1d1d1f;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .features-list li::before {
+      content: "✓";
+      color: #0071e3;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    /* Final CTA */
+    .final-cta {
+      padding: 6rem 1.5rem;
+      background: #000000;
+      color: #f5f5f7;
       text-align: center;
+    }
+
+    .final-cta h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
       font-weight: 600;
-      color: #4b5563;
+      line-height: 1.1;
+      margin-bottom: 2rem;
     }
 
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
+      .comparison-table {
+        font-size: 0.875rem;
       }
 
-      .hero p {
-        font-size: 1rem;
+      th, td {
+        padding: 0.75rem 0.5rem;
       }
     }
   </style>
 
+  <!-- Hero Section -->
   <section class="hero">
-    <div class="container">
-      <h1>Master Your GTM Stack with AI</h1>
-      <p>
-        Daily-updated guides on Salesforce, HubSpot, Outreach, and modern sales automation.
-        Powered by AI, validated by real implementations.
+    <div class="hero-content">
+      <h1>Your GTM engineering team.<br>Without the headcount.</h1>
+      <p class="subhead">
+        Build production-grade revenue infrastructure faster than hiring. Fixed monthly fee.
+        Cancel anytime.
       </p>
-      <a href="/guides" class="cta-button">Explore Guides →</a>
-    </div>
-  </section>
-
-  <section class="features">
-    <div class="container">
-      <h2>What You'll Learn</h2>
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>🎯 Sales Automation</h3>
-          <p>
-            End-to-end guides for Outreach, SalesLoft, and modern sales engagement platforms.
-            From sequences to cadences, master outbound at scale.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <h3>📊 Pipeline Management</h3>
-          <p>
-            Salesforce and HubSpot automation workflows. Build custom objects, optimize stages,
-            and create automated pipeline intelligence.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <h3>🚀 Revenue Intelligence</h3>
-          <p>
-            Gong, Chorus, and conversation intelligence platforms. Extract insights from sales calls
-            and automate coaching at scale.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <h3>💎 Data Enrichment</h3>
-          <p>
-            ZoomInfo, Clearbit, and Apollo integration. Automate lead scoring, firmographic enrichment,
-            and contact discovery workflows.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <h3>🎨 Account-Based Marketing</h3>
-          <p>
-            Marketo and Pardot ABM strategies. Build intent-based campaigns, orchestrate multi-touch
-            attribution, and optimize for accounts.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <h3>⚡ Workflow Orchestration</h3>
-          <p>
-            Zapier, Make, and no-code integrations. Connect your entire GTM stack without custom code.
-            Real examples, real ROI.
-          </p>
-        </div>
+      <div class="cta-group">
+        <a href="/blog" class="cta-primary">See what we build</a>
+        <a href="#pricing" class="cta-secondary">View pricing</a>
       </div>
     </div>
   </section>
 
-  <section class="tools-section">
-    <div class="container">
-      <h2>Tools We Cover</h2>
-      <div class="tools-grid">
-        <div class="tool-badge">Salesforce</div>
-        <div class="tool-badge">HubSpot</div>
-        <div class="tool-badge">Outreach</div>
-        <div class="tool-badge">SalesLoft</div>
-        <div class="tool-badge">Gong</div>
-        <div class="tool-badge">Apollo</div>
-        <div class="tool-badge">ZoomInfo</div>
-        <div class="tool-badge">Clearbit</div>
-        <div class="tool-badge">Marketo</div>
-        <div class="tool-badge">Pardot</div>
-        <div class="tool-badge">Clay</div>
-        <div class="tool-badge">Zapier</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="features">
-    <div class="container">
-      <div style="text-align: center; max-width: 600px; margin: 0 auto;">
-        <h2 style="margin-bottom: 1rem;">Fresh Content, Daily</h2>
-        <p style="color: #6b7280; margin-bottom: 2rem;">
-          Our AI system generates new guides every day based on the latest GTM trends and community questions.
-          Every article is optimized for implementation, not just theory.
+  <!-- Problem Section -->
+  <section class="problem-section">
+    <h2>Hiring a GTM engineer takes 6 months.<br>Your revenue can't wait.</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <h3>$180K+ annual cost</h3>
+        <p>
+          Senior GTM engineers command $150-200K base plus equity. Add benefits,
+          onboarding, and management overhead—you're past $220K before they ship anything.
         </p>
-        <a href="/guides" class="cta-button">Browse All Guides →</a>
       </div>
+
+      <div class="problem-card">
+        <h3>3-6 month hiring cycle</h3>
+        <p>
+          Write JD. Source candidates. Run 5-round interviews. Wait for notice periods.
+          Meanwhile, your sales team is still routing leads in spreadsheets.
+        </p>
+      </div>
+
+      <div class="problem-card">
+        <h3>Single point of failure</h3>
+        <p>
+          One engineer owns your entire revenue infrastructure. They take PTO, get sick,
+          or leave—and suddenly no one knows why Salesforce stopped syncing to Gong.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution Section -->
+  <section class="solution-section">
+    <h2>GTM engineering as a service</h2>
+    <p class="tagline">Production-ready systems. Delivered weekly.</p>
+
+    <div class="capabilities-grid">
+      <div class="capability">
+        <div class="capability-icon">⚡</div>
+        <h3>Revenue System Architecture</h3>
+        <p>
+          We design your entire GTM data model—from first touch attribution to closed-won reporting.
+          Custom objects, field mapping, lifecycle stages that actually make sense.
+        </p>
+      </div>
+
+      <div class="capability">
+        <div class="capability-icon">🔄</div>
+        <h3>Workflow Automation</h3>
+        <p>
+          Lead routing that doesn't break at 11pm. Enrichment pipelines processing 10K contacts/day.
+          Slack alerts when $100K+ deals stall. Built with n8n, Zapier, or custom code.
+        </p>
+      </div>
+
+      <div class="capability">
+        <div class="capability-icon">📊</div>
+        <h3>Pipeline Intelligence</h3>
+        <p>
+          Real-time dashboards showing conversion rates by source, rep, and industry. Forecasting
+          models that predict close dates. Anomaly detection for deals moving backwards.
+        </p>
+      </div>
+
+      <div class="capability">
+        <div class="capability-icon">🎯</div>
+        <h3>Data Infrastructure</h3>
+        <p>
+          Bi-directional syncs between Salesforce, HubSpot, and your data warehouse.
+          CDC pipelines keeping everything in sync. Historical snapshots for time-travel analytics.
+        </p>
+      </div>
+
+      <div class="capability">
+        <div class="capability-icon">🚀</div>
+        <h3>Sales Tool Integration</h3>
+        <p>
+          Connect Outreach sequences to Salesforce opportunities. Push Gong call scores to rep dashboards.
+          Automate ZoomInfo enrichment on inbound leads. Zero manual work.
+        </p>
+      </div>
+
+      <div class="capability">
+        <div class="capability-icon">🛠️</div>
+        <h3>Technical Debt Cleanup</h3>
+        <p>
+          We inherit broken workflows and make them production-grade. Document undocumented systems.
+          Refactor Zaps with 47 steps into maintainable n8n workflows. Leave detailed runbooks.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Differentiation Section -->
+  <section class="diff-section">
+    <h2>Why companies choose GTME JET</h2>
+    <p class="subhead">
+      Not a consultant. Not a freelancer. Your dedicated GTM engineering team.
+    </p>
+
+    <div class="comparison-table">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>GTME JET</th>
+            <th>Full-time hire</th>
+            <th>Agency/Consultant</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Time to first delivery</td>
+            <td class="check">1 week</td>
+            <td class="cross">3-6 months</td>
+            <td class="cross">2-4 weeks</td>
+          </tr>
+          <tr>
+            <td>Cost predictability</td>
+            <td class="check">Fixed monthly</td>
+            <td class="cross">$180K+ annually</td>
+            <td class="cross">$150-250/hr</td>
+          </tr>
+          <tr>
+            <td>Redundancy & coverage</td>
+            <td class="check">Team of specialists</td>
+            <td class="cross">Single point of failure</td>
+            <td class="cross">Per-project basis</td>
+          </tr>
+          <tr>
+            <td>Ongoing maintenance</td>
+            <td class="check">Included</td>
+            <td class="check">If they stay</td>
+            <td class="cross">Separate contract</td>
+          </tr>
+          <tr>
+            <td>Cancel anytime</td>
+            <td class="check">Yes</td>
+            <td class="cross">Severance costs</td>
+            <td class="cross">SOW locked</td>
+          </tr>
+          <tr>
+            <td>Knowledge continuity</td>
+            <td class="check">Documented systems</td>
+            <td class="cross">Lost on departure</td>
+            <td class="cross">Varies</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing-section" id="pricing">
+    <h2>One monthly fee. Everything included.</h2>
+    <p class="subhead">No setup fees. No per-project charges. No surprises.</p>
+
+    <div class="pricing-card">
+      <div class="price">$7,995</div>
+      <div class="price-period">/month</div>
+
+      <ul class="features-list">
+        <li>Dedicated GTM engineering team</li>
+        <li>Unlimited requests & revisions</li>
+        <li>Weekly delivery of completed work</li>
+        <li>Async communication via Slack</li>
+        <li>Full system documentation</li>
+        <li>Ongoing maintenance included</li>
+        <li>Cancel anytime</li>
+      </ul>
+
+      <a href="/blog" class="cta-primary" style="display: inline-block; margin-top: 1rem;">Get started</a>
+      <p style="font-size: 0.875rem; color: #86868b; margin-top: 1rem;">
+        Typical ROI: 6-8 weeks. Average customer saves 400+ hours/year in manual work.
+      </p>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final-cta">
+    <h2>Stop hiring.<br>Start shipping.</h2>
+    <div class="cta-group" style="margin-top: 2rem;">
+      <a href="/blog" class="cta-primary">See our work</a>
     </div>
   </section>
 </BaseLayout>

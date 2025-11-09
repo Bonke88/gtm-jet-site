@@ -79,8 +79,40 @@ async function fetchAndSaveArticles() {
       // Ensure description is max 160 chars
       const description = (article.metaDescription || article.headline).slice(0, 160);
 
-      // Get the raw markdown content - transformations will happen at build time
+      // Transform the markdown content during fetch
       let content = fullArticle.markdown || fullArticle.html;
+
+      // Transform ::: @iframe URL ::: to proper iframe HTML
+      content = content.replace(
+        /::: @iframe (https:\/\/[^\s]+)\s*:::/g,
+        '\n<iframe src="$1" allowfullscreen style="width: 100%; aspect-ratio: 16/9; border-radius: 0.5rem; margin: 2rem 0;"></iframe>\n'
+      );
+
+      // Transform ::: faq blocks to <details> HTML
+      content = content.replace(
+        /::: faq\s*\n### ([^\n]+)\s*\n([\s\S]*?):::/g,
+        (match, question, answer) => {
+          const cleanAnswer = answer.trim();
+          return `\n<details style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">\n<summary style="font-weight: 600; cursor: pointer;">${question}</summary>\n\n${cleanAnswer}\n</details>\n`;
+        }
+      );
+
+      // Add mid-article CTA after the 3rd ## heading
+      let headingCount = 0;
+      let ctaInserted = false;
+
+      content = content.replace(/^## ([^\n]+)/gm, (match, heading) => {
+        headingCount++;
+
+        // Insert CTA before 3rd section
+        if (headingCount === 3 && !ctaInserted && !heading.includes('FAQ')) {
+          ctaInserted = true;
+          const cta = `\n<div class="cta-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 0.75rem; margin: 3rem 0; text-align: center;">\n<h3 style="color: white; font-size: 1.75rem; margin-bottom: 1rem;">Transform Your Revenue Infrastructure</h3>\n<p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 1.5rem;">Stop wrestling with broken syncs and manual workarounds. Get production-grade GTM engineering without the $180K hire.</p>\n<a href="/" style="display: inline-block; background: white; color: #667eea; padding: 0.75rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none;">Get Started with GTME JET</a>\n</div>\n\n`;
+          return cta + match;
+        }
+
+        return match;
+      });
 
       // Create frontmatter
       const frontmatter = `---

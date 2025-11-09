@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import vercel from '@astrojs/vercel';
-import { remarkContentTransforms } from './src/lib/markdown-transforms.js';
+// import { remarkContentTransforms } from './src/lib/markdown-transforms.js';
 
 // https://astro.build/config
 export default defineConfig({
@@ -28,7 +28,12 @@ export default defineConfig({
       theme: 'github-dark'
     },
     remarkPlugins: [
-      remarkContentTransforms
-    ]
+      // remarkContentTransforms
+    ],
+    // Allow raw HTML in markdown files
+    remarkRehype: {
+      allowDangerousHtml: true
+    },
+    rehypePlugins: []
   }
 });

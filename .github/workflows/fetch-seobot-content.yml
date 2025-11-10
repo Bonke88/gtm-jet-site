@@ -1,0 +1,63 @@
+name: Fetch SEObot Content
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:  # Allow manual trigger from GitHub UI
+
+jobs:
+  fetch-content:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch SEObot articles
+        run: node scripts/seobot-ingest.js
+        env:
+          SEOBOT_API_KEY: ${{ secrets.SEOBOT_API_KEY }}
+
+      - name: Check for new articles
+        id: check_changes
+        run: |
+          git add src/content/guides/
+          if git diff --staged --quiet; then
+            echo "No new articles found"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "New articles found!"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push new articles
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "SEObot Auto-Fetch"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Auto-fetch: New SEObot articles $(date +'%Y-%m-%d %H:%M UTC')
+
+          Automatically fetched and committed new articles from SEObot.ai
+
+          🤖 Generated via GitHub Actions
+          Workflow: fetch-seobot-content.yml"
+          git push
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ]; then
+            echo "✅ New articles fetched and committed successfully"
+          else
+            echo "ℹ️ No new articles to fetch"
+          fi

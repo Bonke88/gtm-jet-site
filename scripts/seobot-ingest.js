@@ -85,7 +85,7 @@ async function fetchAndSaveArticles() {
       // Transform ::: @iframe URL ::: to proper iframe HTML
       content = content.replace(
         /::: @iframe (https:\/\/[^\s]+)\s*:::/g,
-        '\n<iframe src="$1" allowfullscreen style="width: 100%; aspect-ratio: 16/9; border-radius: 0.5rem; margin: 2rem 0;"></iframe>\n'
+        '\n<iframe src="$1" allowfullscreen style="width: 100%; height: 800px; min-height: 600px; border: none; border-radius: 0.5rem; margin: 2rem 0;"></iframe>\n'
       );
 
       // Transform ::: faq blocks to <details> HTML

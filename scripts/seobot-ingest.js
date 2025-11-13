@@ -18,7 +18,11 @@ async function fetchAndSaveArticles() {
 
     // Fetch all articles (page 0, limit 50)
     console.log('\n📥 Fetching articles from SEObot...');
+
+    // Debug: Try fetching with different statuses
+    console.log('🔍 Attempting to fetch articles with all statuses...');
     const response = await client.getArticles(0, 50);
+    console.log('📋 Raw response:', JSON.stringify(response, null, 2));
 
     // Handle response structure - might be { articles: [...] } or just [...]
     const articles = Array.isArray(response) ? response : (response?.articles || response?.data || []);

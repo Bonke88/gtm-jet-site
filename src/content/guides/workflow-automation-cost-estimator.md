@@ -5,7 +5,7 @@ tool: "salesforce"
 useCase: "sales-automation"
 difficulty: "intermediate"
 timeToImplement: 2
-publishDate: 2025-11-13
+publishDate: 2025-11-12
 lastUpdated: 2025-11-12
 aiGenerated: true
 source: "seobot"

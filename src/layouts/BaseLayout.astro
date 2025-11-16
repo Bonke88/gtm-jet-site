@@ -19,10 +19,14 @@ const { title, description = "GTM Jet - AI-powered go-to-market insights and aut
     <title>{title}</title>
     <meta name="description" content={description} />
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
+
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).href} />
 
     <!-- Structured Data -->
     {schema && Array.isArray(schema) ? (
